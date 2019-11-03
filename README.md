@@ -30,15 +30,14 @@ Open source tools, tips and tricks for mapping lovers
 
 - Download and install MrSID DSDK
   - Download [MrSID DSDK](https://www.extensis.com/support/developers) for linux 64 and GCC 5
-  - Unzip and enter the folder
-  - `sudo cp -r Raster_DSDK /usr/local/mrsid-raster`
+  - Unzip and move the folder to home
 
 - Build GDAL
   -  Download the source code [here](https://trac.osgeo.org/gdal/wiki/DownloadSource)
   -  Unzip and enter the folder
-  -  Set your options `./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 --with-ecw=/usr/local/hexagon --with-mrsid=/usr/local/mrsid-raster`
+  -  Set your options `./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 --with-ecw=/usr/local/hexagon --with-mrsid=~/MrSID_DSDK-9.5.4.4709-rhel6.x86-64.gcc531/Raster_DSDK --with-mrsid_lidar=~/MrSID_DSDK-9.5.4.4709-rhel6.x86-64.gcc531/Lidar_DSDK --without-libtool`
   -  Remove old builds `make clean`
-  -  Compile `make -j8`
+  -  Compile with all cores `make -j8`
   -  Install `sudo make install`
 
  Check the format is now supported:
