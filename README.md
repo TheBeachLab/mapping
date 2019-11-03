@@ -23,31 +23,27 @@ Open source tools, tips and tricks for mapping lovers
   - At the menu, select 1 for "Desktop Read-Only Redistributable"
   - Accept the license agreement 
   - `sudo cp -r ~/hexagon/ERDAS-ECW_JPEG_2000_SDK-5.4.0/Desktop_Read-Only /usr/local/hexagon`
-  - `sudo cp -r ~/hexagon/ERDAS-ECW_JPEG_2000_SDK-5.4.0/Desktop_Read-Only /usr/local/hexagon`
   - `sudo rm -r /usr/local/hexagon/lib/x64`
   - `sudo mv /usr/local/hexagon/lib/newabi/x64 /usr/local/hexagon/lib/x64`
   - `sudo cp /usr/local/hexagon/lib/x64/release/libNCSEcw* /usr/local/lib`
   - `sudo ldconfig /usr/local/hexagon`
 
-- Download and install MrSID SDK
-  - Download [MrSID SDK](https://www.extensis.com/support/developers)
+- Download and install MrSID DSDK
+  - Download [MrSID DSDK](https://www.extensis.com/support/developers) for linux 64 and GCC 5
+  - Unzip and enter the folder
+  - `sudo cp -r Raster_DSDK /usr/local/mrsid-raster`
 
-- Build GDAL with ECW support
+- Build GDAL
   -  Download the source code [here](https://trac.osgeo.org/gdal/wiki/DownloadSource)
   -  Unzip and enter the folder
-  -  Set your options `./configure --with-ecw=/usr/local/hexagon`
+  -  Set your options `./configure CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 --with-ecw=/usr/local/hexagon --with-mrsid=/usr/local/mrsid-raster`
   -  Remove old builds `make clean`
-  -  Compile `make`
+  -  Compile `make -j8`
   -  Install `sudo make install`
 
  Check the format is now supported:
 
-`gdalinfo --formats | grep -i ecw`
-
-Delete the ECW folder
-
-`sudo rm -rf ~/hexagon/`
-
+`gdalinfo --formats | grep -i ecw mrsid`
 
 ## Arch Geo Tux repository
 
