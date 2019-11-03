@@ -13,25 +13,45 @@ Open source tools, tips and tricks for mapping lovers
 - [Universidad de Extremadura](http://secad.unex.es/conocimiento/)
 - [ICGC](https://www.icgc.cat/Descarregues)
 
-## Opening ECW files with GDAL in Arch Linux
+## Adding support to ECW, JPEG2000 and MrSID file formats with GDAL in Arch Linux
 
-### Option A manual install
+- Uninstall GDAL if present
 
-- Install the AUR `libecwj2` package
-- Download and compile GDAL
+- Download the ERDAS ECW JP2 SDK v5.4 (or later) Linux
+  - [Download the ERDAS ECW JP2 SDK v5.4 (or later) Linux](https://download.hexagongeospatial.com/downloads/ecw/erdas-ecw-jp2-sdk-v5-4-linux?result=true)
+  - Unzip and run `./ERDAS_ECWJP2_SDK-5.4.0.bin`
+  - At the menu, select 1 for "Desktop Read-Only Redistributable"
+  - Accept the license agreement 
+  - `sudo cp -r ~/hexagon/ERDAS-ECW_JPEG_2000_SDK-5.4.0/Desktop_Read-Only /usr/local/hexagon`
+  - `sudo cp -r ~/hexagon/ERDAS-ECW_JPEG_2000_SDK-5.4.0/Desktop_Read-Only /usr/local/hexagon`
+  - `sudo rm -r /usr/local/hexagon/lib/x64`
+  - `sudo mv /usr/local/hexagon/lib/newabi/x64 /usr/local/hexagon/lib/x64`
+  - `sudo cp /usr/local/hexagon/lib/x64/release/libNCSEcw* /usr/local/lib`
+  - `sudo ldconfig /usr/local/hexagon`
+
+- Download and install MrSID SDK
+  - Download [MrSID SDK](https://www.extensis.com/support/developers)
+
+- Build GDAL with ECW support
   -  Download the source code [here](https://trac.osgeo.org/gdal/wiki/DownloadSource)
   -  Unzip and enter the folder
-  -  Set your options `./configure --with-ecw`
-  -  Compile with `make`
+  -  Set your options `./configure --with-ecw=/usr/local/hexagon`
+  -  Remove old builds `make clean`
+  -  Compile `make`
   -  Install `sudo make install`
-  
- and check the format is now supported:
+
+ Check the format is now supported:
 
 `gdalinfo --formats | grep -i ecw`
 
-### Option B add archgeotux repository
+Delete the ECW folder
 
-There is an [Arch Geo Tux](https://archgeotux.sourceforge.io/) repository. Add this repository to `/etc/pacman.conf`
+`sudo rm -rf ~/hexagon/`
+
+
+## Arch Geo Tux repository
+
+There is an [Arch Geo Tux](https://archgeotux.sourceforge.io/) repository with some useful packages. Add this repository to `/etc/pacman.conf`
 
 ```bash
 [archgeotux]
@@ -40,8 +60,6 @@ Server = https://downloads.sourceforge.net/project/archgeotux/$arch
 ```
 
 Add the database file for this new repo `sudo pacman -Sy`
-
-~~and install with `pacman -S gdal-ecw`~~ package no longer available
 
 ## 3D Printing topography maps with QGIS3
 
