@@ -126,9 +126,9 @@ topo2geo tracts=- < or-topo.json | ndjson-map -r d3 -r d3-scale-chromatic 'z = d
 (topo2geo tracts=- < or-topo.json | ndjson-map -r d3 -r d3-scale-chromatic 'z = d3.scaleThreshold().domain([1, 10, 50, 200, 500, 1000, 2000, 4000]).range(d3.schemeOrRd[9]),d.features.forEach(f => f.properties.fill = z(f.properties.density)),d' | ndjson-split 'd.features' ; topo2geo counties=- < or-topo.json | ndjson-map 'd.properties = {"stroke": "#000", "stroke-opacity": 0.3}, d') | geo2svg -n --stroke none -p 1 -w 960 -h 960 > or.svg
 ```
 
-Note 1: The constant 2589975.2356 = 1609.34² converts the land area from square meters to square miles.
-Note 2: The density value is floored rather than rounded. We don’t need the extra precision
-Note 3: As of 4th March 2022 ndjson-cli does not support importing ES modules so you should use D3 v.6.7. Same happens with d3-scale-chromatic 
+- Note 1: The constant 2589975.2356 = 1609.34² converts the land area from square meters to square miles.
+- Note 2: The density value is floored rather than rounded. We don’t need the extra precision
+- Note 3: As of 4th March 2022 ndjson-cli does not support importing ES modules so you should use D3 v.6.7. Same happens with d3-scale-chromatic 
 
 Create the legend:
 
@@ -189,4 +189,4 @@ And insert the legend into the map
 
 The result: 
 
-![Oregon density map](or.svg)
+![Oregon density map](oregon-density-map/or.svg)
